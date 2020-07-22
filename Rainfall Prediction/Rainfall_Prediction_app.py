@@ -288,7 +288,7 @@ try:
         model_hist3 = pd.DataFrame(history3.history)
         model_hist3['epoch'] = history3.epoch
         st.write('\n')
-        st.title('Model Two History')
+        st.title('Model Three History')
         st.dataframe(model_hist3)
 
         #LOSE
@@ -339,6 +339,7 @@ try:
 
         #save entire model to a HDF5 file
         model.save('saved model/my_model.h5')
+        st.text('Model is saved...')
 
         #Load model
         new_model = keras.models.load_model('saved model/my_model.h5')
@@ -348,7 +349,7 @@ try:
         f_loss, f_mae, f_mse = new_model.evaluate(test_dataset, test_labels)
         #print('restored model, accuracy: {:5.2f} ANN'.format(f_mae))
 
-        st.title('Model  Three')
+        st.title('Final Model')
         st.title('Model Loss')
         st.text('LOSS :')
         st.write(f_loss)
@@ -364,7 +365,7 @@ try:
         st.title('Prediction')
         st.dataframe(predictions)
 
-        r2_Score = r2_score(actual, predictions)
+        r2_Score = r2_score(actual_rainfall, predictions)
         st.write('\n')
         st.title('R Squared :')
         st.text('Score :')
@@ -372,35 +373,35 @@ try:
 
 
         #Root Mean Squared Error
-        rmse = sqrt(mean_squared_error(actual, predictions))
+        rmse = sqrt(mean_squared_error(actual_rainfall, predictions))
         st.write('\n')
         st.title('Root Mean Squared Error :')
         st.text('RMSE :')
         st.write(rmse)
 
         #Mean Squared Error
-        mse = mean_squared_error(actual, predictions)
+        mse = mean_squared_error(actual_rainfall, predictions)
         st.write('\n')
         st.title('Mean Squared Error :')
         st.text('MSE :')
         st.write(mse)
 
         #Mean Absolute Error
-        mae = mean_absolute_error(actual, predictions)
+        mae = mean_absolute_error(actual_rainfall, predictions)
         st.write('\n')
         st.title('Mean Absolute Error :')
         st.text('MAE :')
         st.write(mae)
 
         #Mean Squared Log Error
-        msle = mean_squared_log_error(actual, predictions)
+        msle = mean_squared_log_error(actual_rainfall, predictions)
         st.write('\n')
         st.title('Mean Squared Log Error :')
         st.text('MSLE :')
         st.write(msle)
 
         #Max Error
-        me = max_error(actual, predictions)
+        me = max_error(actual_rainfall, predictions)
         st.write('\n')
         st.title('Max Error :')
         st.text('ME :')
@@ -414,7 +415,7 @@ try:
         plt.scatter(test_labels, predictions)
         plt.xlabel('Actual Rainfall')
         plt.ylabel('Predicted Rainfall')
-        lims = [0,60]
+        lims = [0,2500]
         plt.xlim(lims)
         plt.ylim(lims)
         plt.plot(lims, lims)
@@ -437,7 +438,7 @@ try:
         #Plot Prediction Error vs.Count
         error = predictions - test_labels
         plt.hist(error, bins = 25)
-        plt.xlabel("Prediction Error [medv]")
+        plt.xlabel("Prediction Error [ANNUAL]")
         _ = plt.ylabel("Count")
         plt.grid(True)
         st.pyplot()
@@ -520,9 +521,10 @@ try:
 
 
         #Plot Prediction Error vs.Count
+        st.title('Prediction Error vs.Count')
         error = predictions - test_labels
         plt.hist(error, bins = 25)
-        plt.xlabel("Prediction Error [medv]")
+        plt.xlabel("Prediction Error [ANNUAL]")
         _ = plt.ylabel("Count")
         plt.grid(True)
         st.pyplot()
